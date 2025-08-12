@@ -25,7 +25,7 @@ exports.handler = async function (event) {
 
     // --- CORRECTION ---
     // This is the correct verification URL discovered from your working GreenRoots demo.
-    const apiUrl = `https://api.lenco.co/access/v1/transactions/verify/${reference}`;
+    const apiUrl = `https://api.lenco.co/access/v2/transactions/verify/${reference}`;
 
     const response = await axios.get(apiUrl, {
       headers: {
