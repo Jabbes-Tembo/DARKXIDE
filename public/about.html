@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkXide - About</title>
+    <link rel="icon" type="image/png" href="logo/lg.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/about.css">
+</head>
+<body id="about-page">
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo-link">
+            <img src="logo/logo.png" alt="DARKXIDE Logo" class="nav-logo">
+        </a>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="music.html">Music</a>
+            <a href="player.html">Player</a>
+            <a href="merch.html">Merch</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="about.html" class="active">DarkXide</a>
+            <a href="admin.html">Admin</a>
+        </div>
+        <div class="nav-right">
+            <a href="#" id="cart-icon" class="cart-icon-container">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                <span id="cart-count">0</span>
+            </a>
+            <a href="javascript:void(0);" class="icon" onclick="toggleNav()">
+                &#9776;
+            </a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="about-hero">
+            <h1>About DarkXide</h1>
+            <p>
+              Darkxide is a Zambian-based entertainment brand founded by Meenda Jato Hibeene built to inspire bold creativity and self-expression. We specialize in music, fashion, and media, creating platforms where untold stories, street culture, and visionary art collide...
+            </p>
+        </div>
+
+        <section class="contact-section">
+            <div class="about-card">
+                <h2>Song Features & Bookings</h2>
+                <p>
+                    For all inquiries regarding features, collaborations, and event bookings, please reach out to our management team. We are always looking for new creative opportunities.
+                </p>
+                <button id="email-modal-btn" class="contact-button">Email Us</button>
+            </div>
+        </section>
+
+        <section class="support-section">
+             <div class="about-card">
+                <h2>Support the DarkXide</h2>
+                <p>
+                  Support us by purchasing merchandise, streaming our music, or making a donation to grow the brand and help us reach more people. Every contribution helps us continue creating and sharing our vision with the world.
+                </p>
+                <div class="support-buttons">
+                    <a href="merch.html" class="contact-button">Shop Merch</a>
+                    <button id="donate-modal-btn" class="contact-button">Donate</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div id="floating-record-player" class="floating-record-player">
+        <img src="https://via.placeholder.com/80" alt="Album Art" id="record-art">
+    </div>
+    <audio id="persistent-audio-player"></audio>
+
+    <footer>
+        <p>&copy; 2025 DARKXIDE Ent. All Rights Reserved. Powered by GreenRoots Creatives</p>
+    </footer>
+
+    <!-- Email Modal -->
+    <div id="emailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-email-btn">&times;</span>
+            <div class="modal-form-container">
+                <h2>Contact Us</h2>
+                <form id="email-form" class="modal-form">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donate Modal -->
+    <div id="donateModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-donate-btn">&times;</span>
+            <div class="modal-form-container">
+                <h2>Make a Donation</h2>
+                <form id="donate-form" class="modal-form">
+                    <label for="amount">Amount (ZMK)</label>
+                    <input type="number" id="amount" name="amount" placeholder="50.00" required>
+                    <label for="card-number">Card Number</label>
+                    <input type="text" id="card-number" name="card-number" placeholder="xxxx-xxxx-xxxx-xxxx" required>
+                    <button type="submit">Donate Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content cart-modal-content">
+            <span class="close-btn" id="close-cart-btn">&times;</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items-container"></div>
+            <div class="cart-summary">
+                <strong>Total: ZMK<span id="cart-total">0.00</span></strong>
+            </div>
+            <button id="checkout-btn" class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-checkout-modal">&times;</span>
+            <h2>Complete Your Order</h2>
+            <form id="checkout-form" class="modal-form">
+                <label for="customer-name">Full Name</label>
+                <input type="text" id="customer-name" required>
+                <label for="customer-email">Email</label>
+                <input type="email" id="customer-email" required>
+                <div class="form-summary">
+                    <p>Your order will be processed upon confirmation. We'll contact you via email with delivery details.</p>
+                </div>
+                <button type="submit" class="checkout-btn">Confirm Purchase</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script src="https://pay.lenco.co/js/v1/inline.js"></script>
+    <script src="js/app.js?v=1.1"></script>
+    <script src="js/checkout.js?v=1.1"></script>
+</body>
+</html>

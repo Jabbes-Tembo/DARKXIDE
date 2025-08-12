@@ -1,0 +1,26 @@
+{
+  "name": "darkxide",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jabbes-Tembo/DARKXIDE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Jabbes-Tembo/DARKXIDE/issues"
+  },
+  "homepage": "https://github.com/Jabbes-Tembo/DARKXIDE#readme",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "firebase-admin": "^13.4.0",
+    "node-fetch": "^3.3.2"
+  }
+}

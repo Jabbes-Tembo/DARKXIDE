@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - DarkXide</title>
+    <link rel="icon" type="image/png" href="logo/lg.jpg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <img src="logo/logo.png" alt="DARKXIDE Logo" class="login-logo">
+            <h1 id="form-title">Admin Login</h1>
+            <p id="form-subtitle">Enter your credentials to access the admin panel.</p>
+            <form id="auth-form">
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="confirm-password" placeholder="Confirm Password" style="display: none;">
+                <button type="submit" id="submit-btn">Login</button>
+            </form>
+            <p id="error-message" class="error-message"></p>
+        </div>
+    </div>
+
+    <!-- Corrected and cleaned up Firebase script tags -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    
+    <script src="js/app.js?v=1.1"></script>
+    <script src="js/auth.js?v=1.1"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# netlify.toml
+
+[build]
+  # This is the folder that contains your static website (HTML, CSS, JS)
+  publish = "public"
+  
+  # This is the folder where Netlify will find your serverless functions
+  functions = "netlify/functions"
+
+# This redirect rule makes your function endpoints cleaner to call
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

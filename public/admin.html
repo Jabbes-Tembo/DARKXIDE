@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Music Site - Admin</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/NftyTh38/d-X-Photoroom.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="visibility: hidden;">
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo-link">
+            <img src="logo/logo.png" alt="DARKXIDE Logo" class="nav-logo">
+        </a>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="music.html">Music</a>
+            <a href="player.html">Player</a>
+            <a href="merch.html">Merch</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="about.html">DarkXide</a>
+            <a href="admin.html" class="active">Admin</a>
+        </div>
+        <div class="nav-right">
+            <a href="#" id="cart-icon" class="cart-icon-container">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                <span id="cart-count">0</span>
+            </a>
+            <a href="#" id="sign-out-btn" style="color:white; background-color: #e74c3c; padding: 5px 10px; border-radius: 5px; text-decoration: none; font-size: 0.9em;">Sign Out</a>
+            <a href="javascript:void(0);" class="icon" onclick="toggleNav()">
+                &#9776;
+            </a>
+        </div>
+    </nav>
+    <main>
+        <h1>Admin Panel</h1>
+
+        <div class="admin-tabs">
+            <button class="tab-button active" onclick="openTab(event, 'upload')">Upload Content</button>
+            <button class="tab-button" onclick="openTab(event, 'manage')">Manage Content</button>
+            <button class="tab-button" id="orders-tab-btn" onclick="openTab(event, 'orders')">
+                Orders <span id="new-order-badge" class="new-order-badge" style="display: none;"></span>
+            </button>
+        </div>
+
+        <div id="upload" class="tab-content" style="display: block;">
+            <div class="form-container">
+                <h3>Upload New Track</h3>
+                <form id="music-form">
+                    <input type="text" id="music-title" placeholder="Track Title" required>
+                    <input type="text" id="music-artist" placeholder="Artist Name" required>
+                    <label for="music-release-date">Release Date:</label>
+                    <input type="date" id="music-release-date">
+                    <label for="music-producer">Producer(s):</label>
+                    <input type="text" id="music-producer" placeholder="e.g., NIzzie Beats, Nachi Beats">
+                    <label for="music-composers">Composer(s):</label>
+                    <input type="text" id="music-composers" placeholder="e.g., Azzi, Steel Cool">
+                    <label for="music-file">Audio File (MP3, WAV):</label>
+                    <input type="file" id="music-file" accept="audio/*" required>
+                    <label for="music-image">Track Thumbnail Image:</label>
+                    <input type="file" id="music-image" accept="image/*" required>
+                    <button type="submit" class="add-to-cart-btn" >Upload Track</button>
+                </form>
+            </div>
+            <div class="form-container">
+                <h3>Add New Merchandise</h3>
+                <form id="merch-form">
+                    <input type="text" id="merch-name" placeholder="Product Name" required>
+                    <input type="number" id="merch-price" placeholder="Price (e.g., 24.99)" step="0.01" required>
+                    <label for="merch-sizes">Available Sizes (comma-separated, e.g., S,M,L)</label>
+                    <input type="text" id="merch-sizes" placeholder="S, M, L, XL">
+                    <label for="merch-colors">Available Colors (comma-separated, e.g., Black,White)</label>
+                    <input type="text" id="merch-colors" placeholder="Black, White, Grey">
+                    <label for="merch-image">Main Product Image:</label>
+                    <input type="file" id="merch-image" accept="image/*" required>
+                    <label for="merch-gallery-images">Product Gallery Images (select multiple):</label>
+                    <input type="file" id="merch-gallery-images" accept="image/*" multiple>
+                    <button type="submit" class="add-to-cart-btn" >Add Product</button>
+                </form>
+            </div>
+            <div class="form-container">
+                <h3>Upload New Photos to Gallery</h3>
+                <form id="gallery-form">
+                    <input type="text" id="gallery-title" placeholder="Gallery Title or Description" required>
+                    <label for="gallery-images">Gallery Photos (select multiple, the first will be the thumbnail):</label>
+                    <input type="file" id="gallery-images" accept="image/*" required multiple>
+                    <button type="submit" class="add-to-cart-btn" >Upload Photos</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="manage" class="tab-content">
+            <div class="form-container">
+                <h3>Existing Music</h3>
+                <div id="admin-music-list" class="manage-list"></div>
+            </div>
+            <div class="form-container">
+                <h3>Existing Merchandise</h3>
+                <div id="admin-merch-list" class="manage-list"></div>
+            </div>
+            <div class="form-container">
+                <h3>Existing Gallery Photos</h3>
+                <div id="admin-gallery-list" class="manage-list"></div>
+            </div>
+        </div>
+
+        <div id="orders" class="tab-content">
+            <div class="form-container">
+                 <div class="orders-list-header">
+                    <h3>Sales History</h3>
+                    <button id="export-sales-btn" class="action-btn">Export to CSV</button>
+                </div>
+                <div id="orders-list" class="orders-list">
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="floating-record-player" class="floating-record-player">
+        <img src="https://via.placeholder.com/80" alt="Album Art" id="record-art">
+    </div>
+    <audio id="persistent-audio-player"></audio>
+    <footer>
+        <p>&copy; 2025 DARKXIDE Ent. All Rights Reserved. Powered by GreenRoots Creatives</p>
+    </footer>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content edit-modal-content">
+            <span class="close-btn" id="close-edit-btn">&times;</span>
+            <h2>Edit Content</h2>
+            <form id="edit-form">
+                <div id="edit-fields"></div>
+                <button type="submit" class="add-to-cart-btn" style="width: 100%; margin-top: 15px;">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content cart-modal-content">
+            <span class="close-btn" id="close-cart-btn">&times;</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items-container"></div>
+            <div class="cart-summary">
+                <strong>Total: ZMK<span id="cart-total">0.00</span></strong>
+            </div>
+            <button id="checkout-btn" class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+    
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Complete Your Order</h2>
+            <form id="checkout-form" class="modal-form">
+                <label for="customer-name">Full Name</label>
+                <input type="text" id="customer-name" required>
+                <label for="customer-email">Email</label>
+                <input type="email" id="customer-email" required>
+                <div class="form-summary">
+                    <p>Your order will be processed upon confirmation. We'll contact you via email with delivery details.</p>
+                </div>
+                <button type="submit" class="checkout-btn">Confirm Purchase</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    
+    <script src="js/app.js?v=1.1"></script>
+    <script src="js/auth.js?v=1.1"></script>
+    <script src="js/checkout.js?v=1.1"></script>
+</body>
+</html>
