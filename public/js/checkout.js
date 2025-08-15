@@ -1,6 +1,8 @@
 // This function is called by app.js when the page loads
 function initializeCheckout() {
     const checkoutForm = document.getElementById('checkout-form');
+    // Ensure db is accessible from the global scope initialized in app.js
+    const db = firebase.firestore();
 
     if (!checkoutForm) return;
 
@@ -18,21 +20,25 @@ function initializeCheckout() {
         }
 
         LencoPay.getPaid({
-            // IMPORTANT: Replace with your actual Lenco Public Key for DarkXide
-            key: 'pub-d2b32031aac01910d04cc4d50c7aa7354157181c0938577b',
+            // **UPDATED**: Using the new public key from your lenco-payment.js file
+            key: 'pub-fee8cd0fd73f0c17c91273a3840dc5b6571dd2db40164924',
             email: email,
             amount: totalAmount,
-            currency: 'ZMW',
+            currency: 'ZMW', // The currency is ZMW
             reference: 'darkxide_' + Date.now(),
             label: `DarkXide Order - ${name}`,
             bearer: 'merchant',
-            channels: ['card', 'mobile_money'],
+            channels: ['card', 'mobile_money'], // Channels include card and mobile money
 
             callback: function (response) {
-                document.getElementById('cart-checkout-popup').style.display = 'none';
+                // Hide the checkout modal immediately
+                const checkoutPopup = document.getElementById('cart-checkout-popup');
+                if (checkoutPopup) checkoutPopup.style.display = 'none';
+
                 alert('Payment successful! Verifying your order...');
 
-                fetch('https://darkxide.netlify.app/.netlify/functions/verify-lenco-payment', {
+                // Use the existing Netlify function endpoint for verification
+                fetch('/.netlify/functions/verify-lenco-payment', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ reference: response.reference }),
@@ -43,12 +49,28 @@ function initializeCheckout() {
                 })
                 .then(data => {
                     console.log('Verification successful:', data);
+
+                    // **NEW**: Save the verified order to Firestore
+                    const orderData = {
+                        customerName: name,
+                        customerEmail: email,
+                        items: cart,
+                        totalAmount: totalAmount,
+                        lencoReference: response.reference,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+
+                    return db.collection('orders').add(orderData);
+                })
+                .then(() => {
+                    console.log('Order saved to Firestore successfully.');
                     clearCart(); // Uses the clearCart() function from app.js
-                    window.location.href = 'success.html';
+                    window.location.href = 'success.html'; // Redirect to success page
                 })
                 .catch(error => {
-                    console.error('Error during verification:', error);
-                    alert('Your payment was successful, but we had trouble verifying it. Please contact support with reference: ' + response.reference);
+                    console.error('Error during verification or order saving:', error);
+                    alert('Your payment was successful, but we had trouble verifying and saving your order. Please contact support with reference: ' + response.reference);
+                    window.location.href = 'failure.html';
                 });
             },
 
